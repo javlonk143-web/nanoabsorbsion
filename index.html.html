@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nano-Adsorbent Filtratsiya va Tomchilatib Sug'orish: To'liq Tahlil</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            slate: {
+              900: '#0F172A',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    /* Crisp light-grid laboratory background */
+    .lab-grid-bg {
+      background-color: #F8FAFC;
+      background-image: 
+        linear-gradient(to right, rgba(15, 23, 42, 0.032) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.032) 1px, transparent 1px),
+        radial-gradient(rgba(16, 185, 129, 0.14) 1px, transparent 1px);
+      background-size: 32px 32px, 32px 32px, 16px 16px;
+      background-position: 0 0, 0 0, 8px 8px;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 10px 30px -6px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 6px;
+      border-radius: 999px;
+      background: #E2E8F0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #10B981;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.45);
+      margin-top: -6px;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+      background: #059669;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(15, 23, 42, 0.15);
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body class="lab-grid-bg min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
+
+  <!-- 1. TOP HEADER & QUICK CONTROLS -->
+  <header class="sticky top-0 z-30 glass-panel border-b border-slate-200/90 px-4 sm:px-6 py-3">
+    <div class="max-w-[1680px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand & Scientific Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-3.5 4-6 7.5-6 11a6 6 0 0012 0c0-3.5-2.5-7-6-11z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 14.5a2.5 2.5 0 005 0" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900">
+              Nano-Adsorbentlar Bilan Suvni Tozalash va Tomchilatib Sug'orish Tizimi
+            </h1>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              4K Ilmiy Simulyatsiya
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 hidden md:block">
+            1-Bosqich: Xom suv tarkibi → 2-Bosqich: Nano-adsorbsiya reaktori → 3-Bosqich: Tozalangan suv holati, tomizgich va xarajatlar tahlili
+          </p>
+        </div>
+      </div>
+
+      <!-- Area Slider Quick Control -->
+      <div class="flex items-center gap-3 bg-slate-100/90 px-3.5 py-1.5 rounded-2xl border border-slate-200/80 min-w-[230px]">
+        <div class="shrink-0">
+          <div class="text-[10px] font-bold uppercase text-slate-400">Maydon hajmi</div>
+          <div id="headerAreaLabel" class="font-mono text-xs font-extrabold text-emerald-700">5 gektar</div>
+        </div>
+        <input id="areaSlider" type="range" min="1" max="50" value="5" class="w-full" oninput="updateArea(this.value)" />
+      </div>
+
+      <!-- Playback, Speed & 2.5x Molecular Magnifier Toggle -->
+      <div class="flex items-center gap-2">
+        <button id="btnPlayPause" onclick="togglePlayPause()"
+          class="flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-sm transition-all">
+          <svg id="iconPause" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+          <svg id="iconPlay" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+          </svg>
+          <span id="playPauseText">Pauza</span>
+        </button>
+
+        <button onclick="resetSimulation()" title="Qayta boshlash"
+          class="p-2 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-all shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+        </button>
+
+        <div class="hidden sm:flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/70">
+          <button onclick="setSpeed(1)" id="spd-1" class="spd-btn px-2 py-1 rounded-xl text-xs font-mono font-bold bg-white text-emerald-700 shadow-sm">1x</button>
+          <button onclick="setSpeed(5)" id="spd-5" class="spd-btn px-2 py-1 rounded-xl text-xs font-mono font-semibold text-slate-600 hover:text-slate-900">5x</button>
+          <button onclick="setSpeed(20)" id="spd-20" class="spd-btn px-2 py-1 rounded-xl text-xs font-mono font-semibold text-slate-600 hover:text-slate-900">20x</button>
+        </div>
+
+        <button id="btnLensToggle" onclick="toggleMolecularLens()"
+          class="flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-bold border border-cyan-200 bg-cyan-50/80 hover:bg-cyan-100 text-cyan-900 transition-all shadow-sm">
+          <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+          </svg>
+          <span id="lensBtnText">Molekulyar Lupa (1x)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE GRID -->
+  <main class="flex-1 max-w-[1680px] w-full mx-auto p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+
+    <!-- LEFT COLUMN: Water Source & Nano-Adsorbent Controls (3 cols on xl) -->
+    <aside class="lg:col-span-4 xl:col-span-3 flex flex-col gap-3.5 order-2 lg:order-1">
+      
+      <!-- Water Source Selector -->
+      <section class="glass-panel rounded-3xl p-4 flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            1. Boshlang'ich Xom Suv Manbai
+          </h2>
+          <span id="rawWaterBadge" class="font-mono text-[11px] font-bold px-2 py-0.5 rounded-lg bg-amber-50 text-amber-800 border border-amber-200">
+            EC 3.8 dS/m
+          </span>
+        </div>
+        <div id="waterSourceList" class="flex flex-col gap-2"></div>
+      </section>
+
+      <!-- Nano-Adsorbent Selector -->
+      <section class="glass-panel rounded-3xl p-4 flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-cyan-600"></span>
+            2. Nano-Adsorbent Materiali
+          </h2>
+          <span id="sorbentBadge" class="font-mono text-[11px] font-bold px-2 py-0.5 rounded-lg bg-cyan-50 text-cyan-800 border border-cyan-200">
+            1150 m²/g
+          </span>
+        </div>
+        <div id="sorbentList" class="flex flex-col gap-2"></div>
+      </section>
+
+      <!-- Live Adsorbent Saturation & Flow Telemetry Card -->
+      <section class="glass-panel rounded-3xl p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">3. Reaktor va Emitter Holati</h2>
+          <span class="font-mono text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200">Faol rejim</span>
+        </div>
+
+        <div class="space-y-2.5 bg-slate-50 rounded-2xl p-3 border border-slate-200/70">
+          <div>
+            <div class="flex justify-between text-[11px] font-semibold mb-1">
+              <span class="text-slate-600">Zararli ionlar (Na⁺, Pb²⁺, Ca²⁺) ushlanishi</span>
+              <span id="ionTrapPct" class="font-mono font-bold text-cyan-700">88%</span>
+            </div>
+            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div id="ionTrapBar" class="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full transition-all duration-300" style="width: 88%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[11px] font-semibold mb-1">
+              <span class="text-slate-600">Emitter bir tekis tomchilash (CU %)</span>
+              <span id="emitterCuPct" class="font-mono font-bold text-emerald-700">97.5%</span>
+            </div>
+            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div id="emitterCuBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 97.5%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-center">
+          <div class="bg-slate-50 rounded-2xl p-2.5 border border-slate-200/70">
+            <div class="text-[10px] font-bold uppercase text-slate-400">Suv sirt tarangligi</div>
+            <div id="surfaceTensionVal" class="font-mono text-xs font-extrabold text-cyan-700 mt-0.5">64.5 mN/m</div>
+            <div class="text-[9px] text-emerald-600 font-semibold">+28% tez so'rilish</div>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-2.5 border border-slate-200/70">
+            <div class="text-[10px] font-bold uppercase text-slate-400">Tozalangan suv pH</div>
+            <div id="cleanPhVal" class="font-mono text-xs font-extrabold text-emerald-700 mt-0.5">7.1 (Neytral)</div>
+            <div class="text-[9px] text-slate-500">O'g'it cho'kmaydi</div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- CENTER COLUMN: 4K 3-STAGE FLOW CANVAS + DETAILED TABS (6 cols on xl) -->
+    <section class="lg:col-span-8 xl:col-span-6 flex flex-col gap-4 order-1 lg:order-2">
+      
+      <!-- 4K Interactive Canvas Container -->
+      <div id="canvasContainer" class="relative w-full h-[460px] sm:h-[510px] rounded-3xl bg-white border border-slate-200/90 shadow-xl shadow-slate-900/5 overflow-hidden select-none">
+        <canvas id="simCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+        <!-- Top Stage Legend Overlay -->
+        <div class="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+          <div class="glass-panel rounded-2xl px-3 py-1.5 flex flex-wrap items-center gap-2.5 text-[10px] font-mono font-bold pointer-events-auto">
+            <span class="flex items-center gap-1 text-amber-600"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Na⁺</span>
+            <span class="flex items-center gap-1 text-purple-700"><span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>Ca²⁺/Mg²⁺</span>
+            <span class="flex items-center gap-1 text-red-600"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>Pb²⁺/Cd²⁺</span>
+            <span class="flex items-center gap-1 text-emerald-700"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>Biofilm</span>
+            <span class="flex items-center gap-1 text-cyan-600"><span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>Toza H₂O</span>
+          </div>
+
+          <button onclick="toggleMolecularLens()"
+            class="pointer-events-auto glass-panel hover:bg-cyan-50 px-2.5 py-1.5 rounded-xl text-[11px] font-bold text-cyan-800 border-cyan-200 shadow-sm">
+            🔬 Nano-G'ovak Lupa (2.5x)
+          </button>
+        </div>
+
+        <!-- Molecular Magnifier Floating Info Card -->
+        <div id="lensInspectorCard" class="hidden absolute bottom-11 left-3 right-3 sm:right-auto sm:w-88 glass-panel rounded-2xl p-3.5 border border-cyan-300 shadow-lg z-20">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-extrabold uppercase text-cyan-900">Nano-Adsorbsiya Mexanizmi (2.5x)</span>
+            <button onclick="toggleMolecularLens(false)" class="text-slate-400 hover:text-slate-700">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <p id="lensInspectorDesc" class="text-[11px] text-slate-600 leading-relaxed">
+            Mezog'ovakli nano-sorbent yuzasidagi manfiy zaryadlangan funksional guruhlar (-COOH, -OH) musbat zaryadli Na⁺, Ca²⁺ va Pb²⁺ ionlarini elektrostatik tortish va ion almashinuvi orqali tutib qoladi.
+          </p>
+        </div>
+
+        <!-- Bottom Stage Flow Labels -->
+        <div class="absolute bottom-2.5 left-3 right-3 grid grid-cols-3 gap-2 text-center pointer-events-none">
+          <div class="glass-panel rounded-xl py-1 px-2 text-[10px] font-extrabold text-amber-800">
+            1-Bosqich: Kiruvchi Xom Suv
+          </div>
+          <div class="glass-panel rounded-xl py-1 px-2 text-[10px] font-extrabold text-cyan-800">
+            2-Bosqich: Nano-Sorbent Reaktori
+          </div>
+          <div class="glass-panel rounded-xl py-1 px-2 text-[10px] font-extrabold text-emerald-800">
+            3-Bosqich: Toza Suv & Rizo-zona
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. COMPREHENSIVE SCIENTIFIC & FINANCIAL BREAKDOWN TABS -->
+      <div class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col gap-3.5">
+        <!-- Tab Headers -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/70">
+          <button onclick="switchInfoTab('waterState')" id="tabBtn-waterState"
+            class="info-tab-btn py-2 px-3 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow-sm transition-all text-center">
+            1. Tozalangan Suv Holati (Tahlil)
+          </button>
+          <button onclick="switchInfoTab('economics')" id="tabBtn-economics"
+            class="info-tab-btn py-2 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all text-center">
+            2. Xarajatlar va Iqtisodiy Samara
+          </button>
+          <button onclick="switchInfoTab('protocol')" id="tabBtn-protocol"
+            class="info-tab-btn py-2 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all text-center">
+            3. O'rnatish va Regeneratsiya
+          </button>
+        </div>
+
+        <!-- TAB 1 CONTENT: Suvning Tozalangandan Keyingi Fizik-Kimyoviy Holati -->
+        <div id="tabContent-waterState" class="info-tab-panel space-y-3 text-xs text-slate-700 leading-relaxed">
+          <div class="bg-cyan-50/70 border border-cyan-200 rounded-2xl p-3.5">
+            <h3 class="font-extrabold text-cyan-950 text-sm mb-1">
+              Nano-adsorbent filtrdan o'tgan suv qanday holatda bo'ladi?
+            </h3>
+            <p class="text-slate-700">
+              Oddiy qum yoki diskli filtrlar faqat ko'zga ko'rinadigan yirik zarrachalarni ushlab qolsa, <strong>nanoadsorbentlar (1150–1450 m²/g solishtirma sirt yuzasiga ega)</strong> suvni molekulyar va ion darajasida qayta tuzadi. Natijada suv <strong>5 ta muhim fizik-kimyoviy o'zgarishga</strong> uchraydi:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+              <div class="font-extrabold text-slate-900 mb-1">1. Tuzsizlanish va SAR pasayishi</div>
+              <p class="text-[11px] text-slate-600">
+                Ortiqcha <span class="font-mono font-bold text-amber-700">Na⁺</span> va <span class="font-mono font-bold text-red-600">Cl⁻</span> ionlari 82–88% gacha adsorbsiya qilinadi. Natriy adsorbsion nisbati (SAR) 11.2 dan 2.4 gacha tushib, tuproqning sho'rlanishi va qatqaloq bog'lashini to'xtatadi.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+              <div class="font-extrabold text-slate-900 mb-1">2. pH 6.8–7.2 ga barqarorlashuvi</div>
+              <p class="text-[11px] text-slate-600">
+                Ishqoriy bikarbonatlar (<span class="font-mono">HCO₃⁻</span>) neytrallanib, suv pH ko'rsatkichi 8.4 dan ideal <strong>7.1</strong> ga tushadi. Bu tomchilatib sug'orishda beriladigan fosfor (MAP) va xelat mikroelementlar cho'kmasligini kafolatlaydi.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+              <div class="font-extrabold text-slate-900 mb-1">3. Sirt tarangligi pasayishi (64.5 mN/m)</div>
+              <p class="text-[11px] text-slate-600">
+                Yirik suv klasterlari mayda molekulyar zanjirlarga parchalanib, sirt tarangligi 72.8 dan <strong>64.5 mN/m</strong> ga kamayadi. Bunday "yumshoq va faol suv" o'simlik ildiz tukchalari hujayra membranasidan <strong>28% tezroq</strong> so'riladi.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+              <div class="font-extrabold text-slate-900 mb-1">4. 99.4% Biologik Sterillik</div>
+              <p class="text-[11px] text-slate-600">
+                Nano-kumush/TiO₂ va g'ovakli uglerod qatlami patogen zamburug' sporalari (<em>Phytophthora, Fusarium</em>) va bakterial shilimshiqni yo'q qilib, tomizgich teshikchalarini tiqilishdan 100% himoya qiladi.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2 CONTENT: O'rnatish, Xarajatlar va Iqtisodiy Samara -->
+        <div id="tabContent-economics" class="info-tab-panel hidden space-y-3 text-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5">
+            <div>
+              <div class="text-[11px] font-bold uppercase text-emerald-800">Tanlangan maydon: <span id="econTabAreaText" class="font-mono">5 gektar</span></div>
+              <div class="text-sm font-extrabold text-slate-900 mt-0.5">1-Yillik Kapital va Ekspluatatsiya Xarajatlari Tahlili</div>
+            </div>
+            <div class="text-right">
+              <span id="econTabPaybackBadge" class="inline-block font-mono text-xs font-extrabold px-3 py-1 rounded-xl bg-emerald-600 text-white shadow-sm">
+                O'zini oqlash: 4.8 oy (1 mavsum)
+              </span>
+            </div>
+          </div>
+
+          <!-- Detailed Cost Table -->
+          <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="w-full text-left border-collapse text-[11px]">
+              <thead>
+                <tr class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                  <th class="py-2 px-3">Xarajat / Daromad moddasi</th>
+                  <th class="py-2 px-3 text-right">1 gektar uchun</th>
+                  <th class="py-2 px-3 text-right">Jami (<span id="tblAreaHead">5 ga</span>)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200/80 bg-white">
+                <tr>
+                  <td class="py-2 px-3 font-medium text-slate-700">1. Nano-adsorbent kolonna moduli va korpusi (1 martalik)</td>
+                  <td id="costUnit1Ha" class="py-2 px-3 text-right font-mono text-slate-800">5 500 000 so'm</td>
+                  <td id="costUnitTotal" class="py-2 px-3 text-right font-mono font-bold text-slate-900">27 500 000 so'm</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-medium text-slate-700">2. Nano-sorbent materiali (40 kg/ga • 5–7 sikl ishlaydi)</td>
+                  <td id="costMat1Ha" class="py-2 px-3 text-right font-mono text-slate-800">4 200 000 so'm</td>
+                  <td id="costMatTotal" class="py-2 px-3 text-right font-mono font-bold text-slate-900">21 000 000 so'm</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-medium text-slate-700">3. Yillik regeneratsiya va texnik xizmat (yuvish eritmasi)</td>
+                  <td class="py-2 px-3 text-right font-mono text-slate-800">450 000 so'm</td>
+                  <td id="costRegenTotal" class="py-2 px-3 text-right font-mono font-bold text-slate-900">2 250 000 so'm</td>
+                </tr>
+                <tr class="bg-amber-50/70 font-bold">
+                  <td class="py-2 px-3 text-amber-950">JAMI 1-YIL XARAJAT (2-yildan faqat 4.65 mln/ga)</td>
+                  <td id="costAll1Ha" class="py-2 px-3 text-right font-mono text-amber-900">10 150 000 so'm</td>
+                  <td id="costAllTotal" class="py-2 px-3 text-right font-mono text-amber-950">50 750 000 so'm</td>
+                </tr>
+                <tr class="bg-emerald-50/60">
+                  <td class="py-2 px-3 font-semibold text-emerald-900">+ Tejalgan shlang, kislota yuvish va NPK o'g'it (+30% NUE)</td>
+                  <td class="py-2 px-3 text-right font-mono text-emerald-700">+7 000 000 so'm</td>
+                  <td id="saveTotal" class="py-2 px-3 text-right font-mono font-bold text-emerald-800">+35 000 000 so'm</td>
+                </tr>
+                <tr class="bg-emerald-50/60">
+                  <td class="py-2 px-3 font-semibold text-emerald-900">+ Qo'shimcha hosildorlik (+25–30% eksportbop hosil)</td>
+                  <td class="py-2 px-3 text-right font-mono text-emerald-700">+22 500 000 so'm</td>
+                  <td id="yieldRevTotal" class="py-2 px-3 text-right font-mono font-bold text-emerald-800">+112 500 000 so'm</td>
+                </tr>
+                <tr class="bg-emerald-600 text-white font-extrabold">
+                  <td class="py-2.5 px-3">1-MAVSUMDAGI SOF IQTISODIY FOYDA (Xarajatlardan tashqari)</td>
+                  <td id="net1Ha" class="py-2.5 px-3 text-right font-mono">+19 350 000 so'm</td>
+                  <td id="netTotal" class="py-2.5 px-3 text-right font-mono">+96 750 000 so'm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3 CONTENT: O'rnatish Texnologiyasi va Regeneratsiya Yo'riqnomasi -->
+        <div id="tabContent-protocol" class="info-tab-panel hidden space-y-2.5 text-xs text-slate-700">
+          <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+            <div class="font-extrabold text-slate-900 mb-1.5">Tomchilatib sug'orish tarmog'iga ulash sxemasi (Ketma-ketlik):</div>
+            <div class="flex flex-wrap items-center gap-1.5 font-mono text-[10.5px] font-bold">
+              <span class="px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900">1. Qum-shag'al filtr</span>
+              <span>→</span>
+              <span class="px-2.5 py-1 rounded-xl bg-slate-200 text-slate-800">2. Diskli filtr (130 mkm)</span>
+              <span>→</span>
+              <span class="px-2.5 py-1 rounded-xl bg-cyan-600 text-white shadow-sm">3. NANO-ADSORBENT KOLONNA</span>
+              <span>→</span>
+              <span class="px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-900">4. Venturi (NPK fertigatsiya)</span>
+              <span>→</span>
+              <span class="px-2.5 py-1 rounded-xl bg-emerald-600 text-white">5. Tomizgich shlanglar</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+              <div class="font-extrabold text-cyan-900 mb-1">Nima uchun Venturi injektordan OLDIN qo'yiladi?</div>
+              <p class="text-[11px] text-slate-600">
+                Nano-adsorbent avval suvdagi zararli <strong>Na⁺, Ca²⁺, Mg²⁺</strong> ionlarini tutib qolib, suvni yumshatadi va pH ni 7.1 ga tushiradi. Shundan keyingina qo'shilgan NPK va mikroelementlar eritmada 100% erigan holda qoladi.
+              </p>
+            </div>
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200/80">
+              <div class="font-extrabold text-emerald-900 mb-1">Regeneratsiya (Qayta tiklash) sikli:</div>
+              <p class="text-[11px] text-slate-600">
+                Har 25–30 kun sug'orishdan so'ng nano-sorbent g'ovaklari to'yinganda, kolonna teskari oqimda 1.5% li kuchsiz limon/nitrat kislota yoki KCl eritmasi bilan 20 daqiqa yuviladi. Material o'z xususiyatini <strong>5–7 marta</strong> to'liq tiklaydi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: BEFORE VS AFTER WATER STATE COMPARISON TABLE (3 cols on xl) -->
+    <aside class="lg:col-span-12 xl:col-span-3 flex flex-col gap-3.5 order-3 custom-scroll">
+      
+      <!-- Before vs After Water State Table Card -->
+      <section class="glass-panel rounded-3xl p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">Tozalashdan Oldin vs Keyin</h2>
+          <span class="font-mono text-[10px] font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Suv Holati Jadvali
+          </span>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-slate-200/90">
+          <table class="w-full text-left border-collapse text-[11px]">
+            <thead>
+              <tr class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                <th class="py-2 px-2.5">Ko'rsatkich</th>
+                <th class="py-2 px-2 text-right text-amber-800">Oldin</th>
+                <th class="py-2 px-2.5 text-right text-emerald-700">Keyin ✅</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200/70 bg-white font-mono">
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">EC (dS/m)</td>
+                <td id="tblEcBefore" class="py-2 px-2 text-right text-amber-700">3.80</td>
+                <td id="tblEcAfter" class="py-2 px-2.5 text-right font-bold text-emerald-700">0.95</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">TDS (mg/L)</td>
+                <td id="tblTdsBefore" class="py-2 px-2 text-right text-amber-700">2430</td>
+                <td id="tblTdsAfter" class="py-2 px-2.5 text-right font-bold text-emerald-700">610</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">Qattiqlik (mg-ekv)</td>
+                <td id="tblHardBefore" class="py-2 px-2 text-right text-amber-700">14.5</td>
+                <td id="tblHardAfter" class="py-2 px-2.5 text-right font-bold text-emerald-700">3.2</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">pH muhiti</td>
+                <td id="tblPhBefore" class="py-2 px-2 text-right text-amber-700">8.4</td>
+                <td id="tblPhAfter" class="py-2 px-2.5 text-right font-bold text-emerald-700">7.1</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">SAR (Na⁺ nisbati)</td>
+                <td id="tblSarBefore" class="py-2 px-2 text-right text-amber-700">11.2</td>
+                <td id="tblSarAfter" class="py-2 px-2.5 text-right font-bold text-emerald-700">2.4</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">Loyqalik (NTU)</td>
+                <td id="tblNtuBefore" class="py-2 px-2 text-right text-amber-700">48.0</td>
+                <td id="tblNtuAfter" class="py-2 px-2.5 text-right font-bold text-emerald-700">&lt;1.2</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5 font-sans font-semibold text-slate-700">Sirt tarangligi</td>
+                <td class="py-2 px-2 text-right text-slate-500">72.8</td>
+                <td id="tblTensionAfter" class="py-2 px-2.5 text-right font-bold text-cyan-700">64.5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Quick Economic Summary Card on Right Sidebar -->
+      <section class="glass-panel rounded-3xl p-4 flex flex-col gap-2.5 border-emerald-200/80">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Iqtisodiy Qisqa Xulosa</span>
+          <span id="sideRoiBadge" class="font-mono text-xs font-extrabold px-2 py-0.5 rounded-lg bg-emerald-600 text-white">ROI: 290%</span>
+        </div>
+
+        <div class="rounded-2xl p-3 bg-gradient-to-br from-emerald-600 to-teal-700 text-white shadow-md">
+          <div class="text-[10px] uppercase font-bold text-emerald-100">Sof Mavsumiy Foyda (<span id="sideAreaLabel">5 ga</span>)</div>
+          <div id="sideNetProfit" class="font-mono text-lg font-extrabold mt-0.5">+96.8 mln so'm</div>
+          <div id="sideNetUsd" class="font-mono text-[11px] text-emerald-100">≈ $7,560 • 1-yildayoq o'zini oqlaydi</div>
+        </div>
+
+        <div class="text-[11px] text-slate-600 bg-slate-50 rounded-2xl p-3 border border-slate-200/70 space-y-1">
+          <div class="flex justify-between">
+            <span>1 ga o'rnatish + sorbent:</span>
+            <strong id="sideCostPerHa" class="font-mono text-slate-900">10.15 mln so'm</strong>
+          </div>
+          <div class="flex justify-between">
+            <span>1 ga yillik qo'shimcha daromad:</span>
+            <strong class="font-mono text-emerald-700">+29.50 mln so'm</strong>
+          </div>
+          <div class="flex justify-between">
+            <span>Shlang xizmat muddati:</span>
+            <strong class="font-mono text-cyan-700">2 yil → 6 yil</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bog'bon Agromarket Scientific Note -->
+      <section class="rounded-3xl p-4 bg-slate-900 text-white shadow-lg border border-slate-800">
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="w-5 h-5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 text-xs">✓</span>
+          <span class="text-xs font-bold text-emerald-400">Bog'bon Agromarket Tavsiyasi</span>
+        </div>
+        <p id="sideTipText" class="text-[11px] text-slate-300 leading-relaxed">
+          Kollektor yoki qattiq artezian suvini nanoadsorbent kolonnadan o'tkazish nafaqat tomchilatib sug'orish tizimini 6 yilgacha saqlaydi, balki tuproq sho'rlanishini to'xtatib, o'simlikning o'g'it o'zlashtirish koeffitsiyentini 30% ga oshiradi.
+        </p>
+      </section>
+
+    </aside>
+  </main>
+
+  <!-- 5. AUTHOR FOOTER (JAVLON KAMOLOV) -->
+  <footer class="mt-4 border-t border-slate-200/90 bg-white/90 backdrop-blur-md py-4 px-4 sm:px-6">
+    <div class="max-w-[1680px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+      <div class="text-xs text-slate-500">
+        Ilmiy-agronomik tahlil va raqamli simulyatsiya • Tomchilatib sug'orish va nanotexnologiyalar laboratoriyasi
+      </div>
+      <div class="flex items-center gap-2.5 bg-slate-900 text-white px-4 py-2 rounded-2xl shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="text-xs sm:text-sm font-extrabold tracking-wide">Javlon Kamolov</span>
+        <span class="text-[11px] text-slate-400 hidden sm:inline">| Bosh agronom, Bog'bon Agromarket</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /**
+     * ============================================================================
+     * NANO-ADSORBENT FILTRATSIYA VA TOMCHILATIB SUG'ORISH — 4K SCIENTIFIC ENGINE
+     * ============================================================================
+     */
+
+    // 1. WATER SOURCES DATABASE
+    const WATER_SOURCES = {
+      collector: {
+        id: 'collector',
+        name: "Kollektor-drenaj suvi",
+        desc: "Sho'rlangan • EC 3.8 dS/m • TDS 2430 mg/L",
+        ec: 3.80,
+        tds: 2430,
+        hardness: 14.5,
+        ph: 8.4,
+        sar: 11.2,
+        ntu: 48.0,
+        rawTint: 'rgba(180, 125, 65, 0.24)'
+      },
+      artesian: {
+        id: 'artesian',
+        name: "Artezian quduq suvi",
+        desc: "Qattiq Ca/Mg • EC 2.4 dS/m • TDS 1540 mg/L",
+        ec: 2.40,
+        tds: 1540,
+        hardness: 16.8,
+        ph: 8.1,
+        sar: 5.6,
+        ntu: 14.0,
+        rawTint: 'rgba(147, 51, 234, 0.14)'
+      },
+      canal: {
+        id: 'canal',
+        name: "Ochiq kanal / ariq suvi",
+        desc: "Loyqa, biofilm • EC 1.4 dS/m • TDS 900 mg/L",
+        ec: 1.40,
+        tds: 900,
+        hardness: 7.4,
+        ph: 7.9,
+        sar: 3.2,
+        ntu: 64.0,
+        rawTint: 'rgba(22, 163, 74, 0.16)'
+      }
+    };
+
+    // 2. NANO-ADSORBENT MATERIALS DATABASE
+    const NANO_SORBENTS = {
+      go_bc: {
+        id: 'go_bc',
+        name: "Grafen Oksidi / Biochar (GO-BC)",
+        desc: "1150 m²/g • Tuz va og'ir metallarni 88% ushlaydi",
+        surfaceArea: "1150 m²/g",
+        saltRemoval: 0.75,
+        hardRemoval: 0.78,
+        turbidityRemoval: 0.97,
+        trapEfficiency: 0.88,
+        cuPct: 97.5,
+        tensionAfter: 64.5,
+        unitCost1Ha: 5500000,
+        matCost1Ha: 4200000,
+        color: '#0891B2'
+      },
+      zeolite_mag: {
+        id: 'zeolite_mag',
+        name: "Nano-Seolit @ Magnetit (Fe₃O₄)",
+        desc: "980 m²/g • Na⁺ va Ca²⁺/Mg²⁺ ni 84% yumshatadi",
+        surfaceArea: "980 m²/g",
+        saltRemoval: 0.80,
+        hardRemoval: 0.85,
+        turbidityRemoval: 0.94,
+        trapEfficiency: 0.84,
+        cuPct: 96.8,
+        tensionAfter: 65.2,
+        unitCost1Ha: 5000000,
+        matCost1Ha: 3800000,
+        color: '#0284C7'
+      },
+      ag_tio2: {
+        id: 'ag_tio2',
+        name: "Nano-Kumush / TiO₂ (Ag-TiO₂)",
+        desc: "1320 m²/g • Biofilm va bakteriyalarni 99.4% yo'q qiladi",
+        surfaceArea: "1320 m²/g",
+        saltRemoval: 0.70,
+        hardRemoval: 0.74,
+        turbidityRemoval: 0.99,
+        trapEfficiency: 0.92,
+        cuPct: 99.1,
+        tensionAfter: 63.8,
+        unitCost1Ha: 6200000,
+        matCost1Ha: 4800000,
+        color: '#059669'
+      }
+    };
+
+    // 3. SIMULATION STATE
+    const state = {
+      waterId: 'collector',
+      sorbentId: 'go_bc',
+      areaHa: 5,
+      isPlaying: true,
+      speed: 1,
+      lensActive: false,
+      lensX: 0,
+      lensY: 0,
+      activeTab: 'waterState',
+      // Animated Particles
+      rawParticles: [],
+      cleanParticles: [],
+      dripDrops: [],
+      rootIons: [],
+      trappedDots: [],
+      time: 0,
+      lastFrameTime: performance.now()
+    };
+
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // 4. INITIALIZATION
+    function initApp() {
+      renderWaterList();
+      renderSorbentList();
+      resizeCanvas();
+      initParticles();
+      updateAllCalculations();
+      window.addEventListener('resize', resizeCanvas);
+      setupCanvasEvents();
+      requestAnimationFrame(loop);
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (!state.lensX) {
+        state.lensX = width * 0.44;
+        state.lensY = height * 0.48;
+      }
+    }
+
+    function initParticles() {
+      state.rawParticles = [];
+      state.cleanParticles = [];
+      state.dripDrops = [];
+      state.rootIons = [];
+      state.trappedDots = [];
+
+      // Stage 1: Raw water contaminants (Na+, Ca2+, Pb2+, Clay, Biofilm)
+      const types = ['NA', 'CA', 'PB', 'CLAY', 'BIO'];
+      for (let i = 0; i < 42; i++) {
+        state.rawParticles.push({
+          t: Math.random(),
+          lane: (Math.random() - 0.5) * 0.75,
+          type: types[i % types.length],
+          speed: 0.25 + Math.random() * 0.15,
+          trapped: false
+        });
+      }
+
+      // Trapped dots inside Nano-Adsorbent Reactor pores
+      for (let i = 0; i < 34; i++) {
+        state.trappedDots.push({
+          rx: Math.random(),
+          ry: Math.random(),
+          type: types[i % 4],
+          pulse: Math.random() * Math.PI * 2
+        });
+      }
+
+      // Stage 3: Clean structured water molecules exiting reactor to drip emitter
+      for (let i = 0; i < 28; i++) {
+        state.cleanParticles.push({
+          t: Math.random(),
+          lane: (Math.random() - 0.5) * 0.6,
+          speed: 0.35 + Math.random() * 0.15
+        });
+      }
+
+      // Drip drops falling into root zone
+      for (let i = 0; i < 10; i++) {
+        state.dripDrops.push({
+          t: i / 10
+        });
+      }
+
+      // Active root zone absorption particles
+      for (let i = 0; i < 22; i++) {
+        state.rootIons.push({
+          t: Math.random(),
+          angle: (Math.random() - 0.5) * 1.4
+        });
+      }
+    }
+
+    // 5. UI RENDERERS & HANDLERS
+    function renderWaterList() {
+      const container = document.getElementById('waterSourceList');
+      container.innerHTML = Object.values(WATER_SOURCES).map(w => {
+        const active = w.id === state.waterId;
+        return `
+          <button onclick="selectWater('${w.id}')"
+            class="w-full text-left p-2.5 rounded-2xl border transition-all flex items-center justify-between gap-2 ${
+              active
+                ? 'bg-amber-50 border-amber-500 shadow-sm ring-2 ring-amber-500/15'
+                : 'bg-white border-slate-200/80 hover:border-amber-300 hover:bg-slate-50'
+            }">
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-slate-900 truncate">${w.name}</div>
+              <div class="text-[10px] text-slate-500 truncate">${w.desc}</div>
+            </div>
+            <span class="shrink-0 font-mono text-[10px] font-bold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-900">
+              ${w.ec.toFixed(1)} dS/m
+            </span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderSorbentList() {
+      const container = document.getElementById('sorbentList');
+      container.innerHTML = Object.values(NANO_SORBENTS).map(s => {
+        const active = s.id === state.sorbentId;
+        return `
+          <button onclick="selectSorbent('${s.id}')"
+            class="w-full text-left p-2.5 rounded-2xl border transition-all flex items-center justify-between gap-2 ${
+              active
+                ? 'bg-cyan-50 border-cyan-500 shadow-sm ring-2 ring-cyan-500/15'
+                : 'bg-white border-slate-200/80 hover:border-cyan-300 hover:bg-slate-50'
+            }">
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-slate-900 truncate">${s.name}</div>
+              <div class="text-[10px] text-slate-500 truncate">${s.desc}</div>
+            </div>
+            <span class="shrink-0 font-mono text-[10px] font-bold px-2 py-0.5 rounded-lg bg-cyan-100 text-cyan-900">
+              ${Math.round(s.trapEfficiency * 100)}%
+            </span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectWater(id) {
+      state.waterId = id;
+      renderWaterList();
+      updateAllCalculations();
+    }
+
+    function selectSorbent(id) {
+      state.sorbentId = id;
+      renderSorbentList();
+      updateAllCalculations();
+    }
+
+    function updateArea(val) {
+      state.areaHa = Number(val);
+      document.getElementById('headerAreaLabel').textContent = `${state.areaHa} gektar`;
+      updateAllCalculations();
+    }
+
+    function togglePlayPause() {
+      state.isPlaying = !state.isPlaying;
+      document.getElementById('playPauseText').textContent = state.isPlaying ? 'Pauza' : 'Davom etish';
+      document.getElementById('iconPause').classList.toggle('hidden', !state.isPlaying);
+      document.getElementById('iconPlay').classList.toggle('hidden', state.isPlaying);
+    }
+
+    function setSpeed(spd) {
+      state.speed = spd;
+      document.querySelectorAll('.spd-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-emerald-700', 'shadow-sm', 'font-bold');
+        btn.classList.add('text-slate-600', 'font-semibold');
+      });
+      const active = document.getElementById(`spd-${spd}`);
+      if (active) {
+        active.classList.add('bg-white', 'text-emerald-700', 'shadow-sm', 'font-bold');
+        active.classList.remove('text-slate-600', 'font-semibold');
+      }
+    }
+
+    function resetSimulation() {
+      initParticles();
+      updateAllCalculations();
+    }
+
+    function toggleMolecularLens(force) {
+      state.lensActive = typeof force === 'boolean' ? force : !state.lensActive;
+      document.getElementById('lensBtnText').textContent = state.lensActive ? 'Molekulyar Lupa (2.5x)' : 'Molekulyar Lupa (1x)';
+      document.getElementById('lensInspectorCard').classList.toggle('hidden', !state.lensActive);
+    }
+
+    function switchInfoTab(tabKey) {
+      state.activeTab = tabKey;
+      document.querySelectorAll('.info-tab-btn').forEach(btn => {
+        btn.className = "info-tab-btn py-2 px-3 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all text-center";
+      });
+      const activeBtn = document.getElementById(`tabBtn-${tabKey}`);
+      if (activeBtn) {
+        activeBtn.className = "info-tab-btn py-2 px-3 rounded-xl text-xs font-extrabold bg-white text-slate-900 shadow-sm transition-all text-center";
+      }
+
+      document.querySelectorAll('.info-tab-panel').forEach(panel => panel.classList.add('hidden'));
+      const activePanel = document.getElementById(`tabContent-${tabKey}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+    }
+
+    // 6. UPDATE ALL SCIENTIFIC TELEMETRY & FINANCIAL CALCULATIONS
+    function formatUzs(num) {
+      return Math.round(num).toLocaleString('ru-RU') + " so'm";
+    }
+
+    function formatMln(num) {
+      return (num / 1_000_000).toFixed(2) + " mln so'm";
+    }
+
+    function updateAllCalculations() {
+      const w = WATER_SOURCES[state.waterId];
+      const s = NANO_SORBENTS[state.sorbentId];
+      const ha = state.areaHa;
+
+      // Badges
+      document.getElementById('rawWaterBadge').textContent = `EC ${w.ec.toFixed(1)} dS/m`;
+      document.getElementById('sorbentBadge').textContent = s.surfaceArea;
+      document.getElementById('ionTrapPct').textContent = `${Math.round(s.trapEfficiency * 100)}%`;
+      document.getElementById('ionTrapBar').style.width = `${Math.round(s.trapEfficiency * 100)}%`;
+      document.getElementById('emitterCuPct').textContent = `${s.cuPct}%`;
+      document.getElementById('emitterCuBar').style.width = `${s.cuPct}%`;
+      document.getElementById('surfaceTensionVal').textContent = `${s.tensionAfter} mN/m`;
+
+      // Before vs After Water State Table
+      const ecAfter = +(w.ec * (1 - s.saltRemoval)).toFixed(2);
+      const tdsAfter = Math.round(w.tds * (1 - s.saltRemoval));
+      const hardAfter = +(w.hardness * (1 - s.hardRemoval)).toFixed(1);
+      const phAfter = +(7.0 + (w.ph - 7.0) * 0.12).toFixed(1);
+      const sarAfter = +(w.sar * (1 - s.saltRemoval * 1.04)).toFixed(1);
+      const ntuAfter = Math.max(0.6, +(w.ntu * (1 - s.turbidityRemoval)).toFixed(1));
+
+      document.getElementById('cleanPhVal').textContent = `${phAfter} (Neytral)`;
+      document.getElementById('tblEcBefore').textContent = w.ec.toFixed(2);
+      document.getElementById('tblEcAfter').textContent = ecAfter.toFixed(2);
+      document.getElementById('tblTdsBefore').textContent = w.tds;
+      document.getElementById('tblTdsAfter').textContent = tdsAfter;
+      document.getElementById('tblHardBefore').textContent = w.hardness.toFixed(1);
+      document.getElementById('tblHardAfter').textContent = hardAfter.toFixed(1);
+      document.getElementById('tblPhBefore').textContent = w.ph.toFixed(1);
+      document.getElementById('tblPhAfter').textContent = phAfter.toFixed(1);
+      document.getElementById('tblSarBefore').textContent = w.sar.toFixed(1);
+      document.getElementById('tblSarAfter').textContent = Math.max(1.2, sarAfter).toFixed(1);
+      document.getElementById('tblNtuBefore').textContent = w.ntu.toFixed(1);
+      document.getElementById('tblNtuAfter').textContent = `<${ntuAfter}`;
+      document.getElementById('tblTensionAfter').textContent = s.tensionAfter.toFixed(1);
+
+      // Financial Calculator (UZS & USD)
+      const unit1Ha = s.unitCost1Ha;
+      const mat1Ha = s.matCost1Ha;
+      const regen1Ha = 450000;
+      const totalCost1Ha = unit1Ha + mat1Ha + regen1Ha;
+
+      const save1Ha = 7000000; // Saved drip pipes + acid flushing + 30% NPK fertilizer efficiency
+      const extraYieldRev1Ha = Math.round(22500000 * (s.trapEfficiency / 0.88));
+      const totalBenefit1Ha = save1Ha + extraYieldRev1Ha;
+      const netProfit1Ha = totalBenefit1Ha - totalCost1Ha;
+
+      const totalCostAll = totalCost1Ha * ha;
+      const netProfitAll = netProfit1Ha * ha;
+      const roiPct = Math.round((netProfit1Ha / totalCost1Ha) * 100);
+      const paybackMonths = Math.max(3.2, +(12 * (totalCost1Ha / totalBenefit1Ha)).toFixed(1));
+      const netUsdAll = Math.round(netProfitAll / 12800);
+
+      // Update Tab 2 Economics Table
+      document.getElementById('econTabAreaText').textContent = `${ha} gektar`;
+      document.getElementById('tblAreaHead').textContent = `${ha} ga`;
+      document.getElementById('econTabPaybackBadge').textContent = `O'zini oqlash: ${paybackMonths} oy (1 mavsum)`;
+
+      document.getElementById('costUnit1Ha').textContent = formatUzs(unit1Ha);
+      document.getElementById('costUnitTotal').textContent = formatUzs(unit1Ha * ha);
+      document.getElementById('costMat1Ha').textContent = formatUzs(mat1Ha);
+      document.getElementById('costMatTotal').textContent = formatUzs(mat1Ha * ha);
+      document.getElementById('costRegenTotal').textContent = formatUzs(regen1Ha * ha);
+      document.getElementById('costAll1Ha').textContent = formatUzs(totalCost1Ha);
+      document.getElementById('costAllTotal').textContent = formatUzs(totalCostAll);
+
+      document.getElementById('saveTotal').textContent = "+" + formatUzs(save1Ha * ha);
+      document.getElementById('yieldRevTotal').textContent = "+" + formatUzs(extraYieldRev1Ha * ha);
+      document.getElementById('net1Ha').textContent = "+" + formatUzs(netProfit1Ha);
+      document.getElementById('netTotal').textContent = "+" + formatUzs(netProfitAll);
+
+      // Update Right Sidebar Economic Summary
+      document.getElementById('sideRoiBadge').textContent = `ROI: ${roiPct}%`;
+      document.getElementById('sideAreaLabel').textContent = `${ha} ga`;
+      document.getElementById('sideNetProfit').textContent = `+${formatMln(netProfitAll)}`;
+      document.getElementById('sideNetUsd').textContent = `≈ $${netUsdAll.toLocaleString('en-US')} • 1-yildayoq o'zini oqlaydi`;
+      document.getElementById('sideCostPerHa').textContent = formatMln(totalCost1Ha);
+    }
+
+    // 7. CANVAS INTERACTIONS
+    function setupCanvasEvents() {
+      const updateLensPos = (clientX, clientY) => {
+        const rect = canvas.getBoundingClientRect();
+        state.lensX = clientX - rect.left;
+        state.lensY = clientY - rect.top;
+      };
+      canvas.addEventListener('mousemove', (e) => {
+        if (state.lensActive) updateLensPos(e.clientX, e.clientY);
+      });
+      canvas.addEventListener('touchmove', (e) => {
+        if (state.lensActive && e.touches.length > 0) {
+          updateLensPos(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+      canvas.addEventListener('click', (e) => {
+        updateLensPos(e.clientX, e.clientY);
+        toggleMolecularLens(!state.lensActive);
+      });
+    }
+
+    // 8. 60FPS PARTICLE UPDATE LOOP
+    function updateSimulation(dt) {
+      if (!state.isPlaying) return;
+      const effDt = dt * state.speed;
+      state.time += dt;
+
+      state.rawParticles.forEach(p => {
+        p.t += p.speed * effDt;
+        if (p.t >= 1) {
+          p.t = 0;
+          p.lane = (Math.random() - 0.5) * 0.75;
+        }
+      });
+
+      state.trappedDots.forEach(d => {
+        d.pulse += dt * 3;
+      });
+
+      state.cleanParticles.forEach(cp => {
+        cp.t += cp.speed * effDt;
+        if (cp.t >= 1) {
+          cp.t = 0;
+          cp.lane = (Math.random() - 0.5) * 0.6;
+        }
+      });
+
+      state.dripDrops.forEach(dd => {
+        dd.t += 0.45 * effDt;
+        if (dd.t >= 1) dd.t = 0;
+      });
+
+      state.rootIons.forEach(ri => {
+        ri.t += 0.35 * effDt;
+        if (ri.t >= 1) ri.t = 0;
+      });
+    }
+
+    // 9. 4K SCIENTIFIC CANVAS RENDERER
+    function drawScene() {
+      ctx.clearRect(0, 0, width, height);
+      renderFlowSystem(false);
+
+      if (state.lensActive) {
+        const lensR = Math.min(110, width * 0.22);
+        const lx = Math.max(lensR + 10, Math.min(width - lensR - 10, state.lensX));
+        const ly = Math.max(lensR + 48, Math.min(height - lensR - 42, state.lensY));
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(lx, ly, lensR, 0, Math.PI * 2);
+        ctx.shadowColor = 'rgba(15, 23, 42, 0.25)';
+        ctx.shadowBlur = 22;
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fill();
+        ctx.shadowColor = 'transparent';
+
+        ctx.clip();
+        ctx.translate(lx, ly);
+        ctx.scale(2.45, 2.45);
+        ctx.translate(-lx, -ly);
+        renderFlowSystem(true);
+        ctx.restore();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(lx, ly, lensR, 0, Math.PI * 2);
+        ctx.lineWidth = 3.5;
+        ctx.strokeStyle = '#0891B2';
+        ctx.stroke();
+
+        ctx.fillStyle = '#0F172A';
+        ctx.beginPath();
+        ctx.roundRect(lx - 52, ly - lensR - 11, 104, 19, 9.5);
+        ctx.fill();
+        ctx.fillStyle = '#22D3EE';
+        ctx.font = '700 9.5px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('NANO-LUPA 2.5x', lx, ly - lensR + 2);
+        ctx.restore();
+      }
+    }
+
+    function renderFlowSystem(isZoomed) {
+      const w = WATER_SOURCES[state.waterId];
+      const s = NANO_SORBENTS[state.sorbentId];
+
+      // Layout geometry coordinates
+      const pipeY = height * 0.44;
+      const pipeH = 56;
+      const intakeX = width * 0.04;
+      const reactorX = width * 0.33;
+      const reactorW = width * 0.22;
+      const reactorY = pipeY - 46;
+      const reactorH = pipeH + 92;
+      const emitterX = width * 0.74;
+      const soilTop = height * 0.64;
+
+      ctx.save();
+
+      // --- 1. INTAKE PIPE (STAGE 1: RAW WATER) ---
+      ctx.fillStyle = w.rawTint;
+      ctx.strokeStyle = '#94A3B8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(intakeX, pipeY, reactorX - intakeX + 6, pipeH, 10);
+      ctx.fill();
+      ctx.stroke();
+
+      // Raw water particles moving left -> reactor
+      state.rawParticles.forEach(p => {
+        const px = intakeX + 10 + p.t * (reactorX - intakeX - 10);
+        const py = pipeY + pipeH * 0.5 + p.lane * (pipeH * 0.65);
+
+        ctx.beginPath();
+        ctx.arc(px, py, p.type === 'CLAY' ? 4.2 : 3.5, 0, Math.PI * 2);
+        ctx.fillStyle =
+          p.type === 'NA' ? '#F59E0B' :
+          p.type === 'CA' ? '#9333EA' :
+          p.type === 'PB' ? '#EF4444' :
+          p.type === 'BIO' ? '#15803D' : '#92400E';
+        ctx.fill();
+
+        if (isZoomed) {
+          ctx.fillStyle = '#0F172A';
+          ctx.font = '700 6px "JetBrains Mono", monospace';
+          const lbl = p.type === 'NA' ? 'Na⁺' : p.type === 'CA' ? 'Ca²⁺' : p.type === 'PB' ? 'Pb²⁺' : p.type === 'BIO' ? 'Bakt' : 'Loy';
+          ctx.fillText(lbl, px + 5, py + 2);
+        }
+      });
+
+      // --- 2. NANO-ADSORPTION REACTOR COLUMN (STAGE 2) ---
+      const colGrad = ctx.createLinearGradient(reactorX, reactorY, reactorX + reactorW, reactorY + reactorH);
+      colGrad.addColorStop(0, '#ECFEFF');
+      colGrad.addColorStop(0.5, '#CFFAFE');
+      colGrad.addColorStop(1, '#E0F2FE');
+
+      ctx.fillStyle = colGrad;
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.roundRect(reactorX, reactorY, reactorW, reactorH, 18);
+      ctx.fill();
+      ctx.stroke();
+
+      // Reactor Header Tag
+      ctx.fillStyle = '#0F172A';
+      ctx.font = '800 10px "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('NANO-ADSORBENT', reactorX + reactorW * 0.5, reactorY - 14);
+      ctx.fillStyle = s.color;
+      ctx.font = '700 9px "JetBrains Mono", monospace';
+      ctx.fillText(s.surfaceArea, reactorX + reactorW * 0.5, reactorY - 3);
+
+      // Mesoporous Nano-Sorbent Matrix Spheres & Trapped Contaminants
+      const cols = 4;
+      const rows = 5;
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+          const gx = reactorX + 18 + (c / (cols - 1)) * (reactorW - 36);
+          const gy = reactorY + 20 + (r / (rows - 1)) * (reactorH - 40);
+
+          // Porous nano-sphere
+          ctx.beginPath();
+          ctx.arc(gx, gy, 11, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.08)';
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(8, 145, 178, 0.35)';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+      }
+
+      // Trapped Ions bound inside Nano-Pores
+      state.trappedDots.forEach(d => {
+        const tx = reactorX + 14 + d.rx * (reactorW - 28);
+        const ty = reactorY + 16 + d.ry * (reactorH - 32);
+        const r = 3.2 + Math.sin(d.pulse) * 0.4;
+        ctx.beginPath();
+        ctx.arc(tx, ty, r, 0, Math.PI * 2);
+        ctx.fillStyle =
+          d.type === 'NA' ? '#F59E0B' :
+          d.type === 'CA' ? '#9333EA' :
+          d.type === 'PB' ? '#EF4444' : '#15803D';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+
+      // --- 3. CLEAN PURIFIED WATER PIPE TO DRIP EMITTER (STAGE 3) ---
+      const outStartX = reactorX + reactorW - 4;
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.16)';
+      ctx.strokeStyle = '#06B6D4';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(outStartX, pipeY + 10, emitterX - outStartX + 26, pipeH - 20, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      // Crystal-clear structured water molecules moving to emitter
+      state.cleanParticles.forEach(cp => {
+        const cx = outStartX + 8 + cp.t * (emitterX - outStartX + 10);
+        const cy = pipeY + pipeH * 0.5 + cp.lane * (pipeH * 0.35);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 3.6, 0, Math.PI * 2);
+        ctx.fillStyle = '#06B6D4';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+
+        if (isZoomed) {
+          ctx.fillStyle = '#0E7490';
+          ctx.font = '700 6px "JetBrains Mono", monospace';
+          ctx.fillText('H₂O', cx + 5, cy + 2);
+        }
+      });
+
+      // Drip Irrigation Emitter Nozzle
+      ctx.fillStyle = '#0F172A';
+      ctx.beginPath();
+      ctx.roundRect(emitterX - 10, pipeY + pipeH - 12, 20, 16, 4);
+      ctx.fill();
+
+      // Falling crystal-clear droplets
+      state.dripDrops.forEach(dd => {
+        const dy = pipeY + pipeH + 6 + dd.t * (soilTop - (pipeY + pipeH + 6));
+        ctx.beginPath();
+        ctx.arc(emitterX, dy, 3.4, 0, Math.PI * 2);
+        ctx.fillStyle = '#06B6D4';
+        ctx.fill();
+      });
+
+      // --- 4. ROOT ZONE & HEALTHY INTENSIVE ORCHARD TREE ---
+      // Soil cross-section
+      const soilGrad = ctx.createLinearGradient(0, soilTop, 0, height);
+      soilGrad.addColorStop(0, 'rgba(92, 64, 40, 0.16)');
+      soilGrad.addColorStop(1, 'rgba(68, 46, 26, 0.24)');
+      ctx.fillStyle = soilGrad;
+      ctx.fillRect(0, soilTop, width, height - soilTop);
+
+      ctx.beginPath();
+      ctx.moveTo(0, soilTop);
+      ctx.lineTo(width, soilTop);
+      ctx.strokeStyle = '#10B981';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Clean Capillary Wetting Bulb under Emitter
+      const bulbGrad = ctx.createRadialGradient(emitterX, soilTop + 45, 5, emitterX, soilTop + 45, 78);
+      bulbGrad.addColorStop(0, 'rgba(6, 182, 212, 0.34)');
+      bulbGrad.addColorStop(1, 'rgba(6, 182, 212, 0)');
+      ctx.fillStyle = bulbGrad;
+      ctx.beginPath();
+      ctx.ellipse(emitterX, soilTop + 48, 76, 54, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Healthy Fruit Tree on Right Side
+      const treeX = width * 0.87;
+      const sway = Math.sin(state.time * 1.5) * 2.2;
+
+      // Active Root Network reaching into wetting bulb
+      ctx.strokeStyle = '#E7DEC8';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 4.5;
+      ctx.beginPath();
+      ctx.moveTo(treeX, soilTop);
+      ctx.lineTo(treeX, soilTop + 88);
+      ctx.stroke();
+
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(treeX, soilTop + 18);
+      ctx.quadraticCurveTo(treeX - 35, soilTop + 32, emitterX + 10, soilTop + 45);
+      ctx.stroke();
+
+      // Tree Trunk & Lush Emerald Canopy
+      ctx.beginPath();
+      ctx.moveTo(treeX, soilTop + 2);
+      ctx.lineTo(treeX + sway * 0.3, soilTop - 92);
+      ctx.lineWidth = 6.5;
+      ctx.strokeStyle = '#78350F';
+      ctx.stroke();
+
+      const clusters = [
+        { dx: -24, dy: 10, r: 24 },
+        { dx:  24, dy: 8,  r: 25 },
+        { dx: -15, dy: -14, r: 22 },
+        { dx:  15, dy: -16, r: 23 },
+        { dx:   0, dy: -28, r: 26 }
+      ];
+      clusters.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(treeX + c.dx + sway * 0.5, soilTop - 92 + c.dy, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = '#10B981';
+        ctx.fill();
+      });
+
+      // Ripe Purple Fruits ("Vengerka domashnaya" Plum)
+      const fruits = [
+        { dx: -22, dy: 14 }, { dx: -10, dy: 18 }, { dx: 12, dy: 15 },
+        { dx: 24, dy: 10 }, { dx: -12, dy: -8 }, { dx: 14, dy: -10 }, { dx: 0, dy: -22 }
+      ];
+      fruits.forEach(f => {
+        ctx.beginPath();
+        ctx.ellipse(treeX + f.dx + sway * 0.5, soilTop - 92 + f.dy, 4.2, 5.5, 0.15, 0, Math.PI * 2);
+        ctx.fillStyle = '#581C87';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+
+      ctx.restore();
+    }
+
+    // 10. MAIN 60FPS ANIMATION LOOP
+    function loop(now) {
+      const dt = Math.min(0.05, (now - state.lastFrameTime) / 1000);
+      state.lastFrameTime = now;
+
+      updateSimulation(dt);
+      drawScene();
+
+      requestAnimationFrame(loop);
+    }
+
+    window.onload = initApp;
+  </script>
+</body>
+</html>
